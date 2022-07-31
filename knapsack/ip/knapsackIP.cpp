@@ -69,12 +69,12 @@ int solveKnapsackIp(instance * I) {
      printf("error\n");
 
   cout << "Solution status: " << cplex.getStatus() << endl;
-  cout << "Beneficio = " << cplex.getObjValue() << endl;
   for(int i=0;i<I->n;i++) {
     if(cplex.getValue(x[i])>0.99) {
       cout << "Uses " << i << " profit: " << I->profit[i] << " weight " << I->weight[i] << endl;
     }
   }
+  cout << "Beneficio = " << cplex.getObjValue() << endl;
   env.end();
   return(0);
 }

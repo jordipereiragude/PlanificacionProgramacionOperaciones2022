@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define QS_COMPARE(a,b) ((b)-(a))
 
 typedef struct instance{
   int n;
@@ -8,6 +7,20 @@ typedef struct instance{
   int* profit;
   int* weight;
 } instance;
+
+typedef struct paraOrden{
+  int id;
+  double ratio;
+}paraOrden;
+
+//https://stackoverflow.com/questions/8721189/how-to-sort-an-array-of-structs-in-c
+int compare_paraOrden(const void *a, const void *b) {
+  const paraOrden *p1=(paraOrden *) a;
+  const paraOrden *p2=(paraOrden *) b;
+  if(p1->ratio > p2->ratio) return -1;
+  else if(p1->ratio < p2->ratio) return 1;
+  return 0;
+}
 
 int * generateIntVector(int n) {
 	int *vector;
@@ -20,50 +33,6 @@ double * generateDoubleVector(int n) {
 	vector=(double* )malloc(sizeof(double)*n);
 	return vector;
 }
-
-//quicksort ordena vector list usando vector pesos para marcar el orden usa QS_COMPARE para comparaciones
-//de primera a última posición, por tanto en este caso generalmente de beg=0 end=n-1 (end se cambia!!!)
-//el QS_COMPARE actual orden de mayor a menor
-void sort(int list[], double pesos[], int beg, int end) {
-	int piv; 
-	int tmp;
-	int  l,r,p;
-
-	while (beg<end)    // This while loop will avoid the second recursive call
-	{
-		l = beg; p = beg + (end-beg)/2; r = end;
-		piv = list[p];
-		//printf("l %d r %d piv: %d (p: %d)\n",l,r,list[p],p);
-		//fflush(stdout);
-		while (1)
-		{
-			//printf("l: %d r: %d\t",l,r);
-			while ( (l<=r) && ( QS_COMPARE(pesos[list[l]],pesos[piv]) <= 0.0 ) ) l++;
-			while ( (l<=r) && ( QS_COMPARE(pesos[list[r]],pesos[piv])  > 0.0 ) ) r--;
-			//printf(" -->  l: %d r: %d\n",l,r);
-			if (l>r) break;
-			tmp=list[l]; list[l]=list[r]; list[r]=tmp;
-			if (p==r) p=l;
-			l++; r--;
-		}
-		list[p]=list[r]; list[r]=piv;
-		r--;
-		//printf("r: %d beg: %d end %d l %d\n",r,beg,end,l);
-		//fflush(stdout);
-		// Recursion on the shorter side & loop (with new indexes) on the longer
-		if ((r-beg)<(end-l))   
-		{
-			sort(list, pesos, beg, r);
-			beg=l;
-		}
-		else
-		{
-			sort(list, pesos, l, end);
-			end=r;
-		}
-	}   
-}
-
 
 int readFile(instance* I,char* filename) {
 
@@ -84,40 +53,50 @@ int uno,dos;
 }
 
 int solveKnapsackGreedy(instance* I) {
-  double* ratio;
-  int* orden;
+  paraOrden orden[I->n];
   int libre;
   int obj;
   int c;
+  double r;
 
-  ratio=generateDoubleVector(I->n);
-  orden=generateIntVector(I->n);
-  for(int i=0;i<I->n;i++) ratio[i]=(double)(I->profit[i])/(double)(I->weight[i]);
-  for(int i=0;i<I->n;i++) orden[i]=i;
-  // alternativa buena
-  sort(orden,ratio,0,I->n-1);
-  //
-  /* alternativa mala 
+  for(int i=0;i<I->n;i++) {
+    orden[i].id=i;
+    orden[i].ratio=(double)(I->profit[i])/(double)(I->weight[i]);
+  }
+  //https://stackoverflow.com/questions/8721189/how-to-sort-an-array-of-structs-in-c
+  //qsort(orden,I->n,sizeof(paraOrden),compare_paraOrden);
+
+  /* alternativa mala */
   do {
     c=0;
     for(int i=0;i<I->n-1;i++) {
-      if(ratio[orden[i]]<ratio[orden[i+1]]) {
-        c=orden[i];
-        orden[i]=orden[i+1];
-        orden[i+1]=c;
+      if(orden[i].ratio<orden[i+1].ratio) {
+        c=orden[i].id;
+        orden[i].id=orden[i+1].id;
+        orden[i+1].id=c;
         c=1;
+        r=orden[i].ratio;
+        orden[i].ratio=orden[i+1].ratio;
+        orden[i+1].ratio=r;
       }
     }
   }while(c==1); 
+  /**/
+  /*
+  printf("orden: ");
+  for(int i=0;i<I->n;i++) {
+    printf("%d ",orden[i].id);
+  }
+  printf("\n");
   */
   libre=I->c;
   obj=0;
   printf("usa: ");
   for(int i=0;i<I->n;i++) {
-    if(libre>=I->weight[orden[i]]) {
-      libre=libre-I->weight[orden[i]];
-      obj=obj+I->profit[orden[i]];
-      printf("%d ",orden[i]);
+    if(libre>=I->weight[orden[i].id]) {
+      libre=libre-I->weight[orden[i].id];
+      obj=obj+I->profit[orden[i].id];
+      printf("%d ",orden[i].id);
     }
   }
   printf("\nbeneficio total: %d\n",obj);
