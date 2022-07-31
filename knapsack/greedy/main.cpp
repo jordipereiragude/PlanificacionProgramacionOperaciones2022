@@ -88,22 +88,39 @@ int solveKnapsackGreedy(instance* I) {
   int* orden;
   int libre;
   int obj;
+  int c;
 
   ratio=generateDoubleVector(I->n);
   orden=generateIntVector(I->n);
   for(int i=0;i<I->n;i++) ratio[i]=(double)(I->profit[i])/(double)(I->weight[i]);
   for(int i=0;i<I->n;i++) orden[i]=i;
+  // alternativa buena
   sort(orden,ratio,0,I->n-1);
+  //
+  /* alternativa mala 
+  do {
+    c=0;
+    for(int i=0;i<I->n-1;i++) {
+      if(ratio[orden[i]]<ratio[orden[i+1]]) {
+        c=orden[i];
+        orden[i]=orden[i+1];
+        orden[i+1]=c;
+        c=1;
+      }
+    }
+  }while(c==1); 
+  */
   libre=I->c;
   obj=0;
+  printf("usa: ");
   for(int i=0;i<I->n;i++) {
     if(libre>=I->weight[orden[i]]) {
       libre=libre-I->weight[orden[i]];
       obj=obj+I->profit[orden[i]];
-      printf("usa %d\n",orden[i]);
+      printf("%d ",orden[i]);
     }
   }
-  printf("beneficio total: %d\n",obj);
+  printf("\nbeneficio total: %d\n",obj);
 
   return(0);
 }
