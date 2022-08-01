@@ -64,9 +64,9 @@ int solveKnapsackGreedy(instance* I) {
     orden[i].ratio=(double)(I->profit[i])/(double)(I->weight[i]);
   }
   //https://stackoverflow.com/questions/8721189/how-to-sort-an-array-of-structs-in-c
-  //qsort(orden,I->n,sizeof(paraOrden),compare_paraOrden);
+  qsort(orden,I->n,sizeof(paraOrden),compare_paraOrden);
 
-  /* alternativa mala */
+  /* alternativa mala
   do {
     c=0;
     for(int i=0;i<I->n-1;i++) {
@@ -81,7 +81,7 @@ int solveKnapsackGreedy(instance* I) {
       }
     }
   }while(c==1); 
-  /**/
+  */
   /*
   printf("orden: ");
   for(int i=0;i<I->n;i++) {
@@ -91,12 +91,12 @@ int solveKnapsackGreedy(instance* I) {
   */
   libre=I->c;
   obj=0;
-  printf("usa: ");
+  //printf("usa: ");
   for(int i=0;i<I->n;i++) {
     if(libre>=I->weight[orden[i].id]) {
       libre=libre-I->weight[orden[i].id];
       obj=obj+I->profit[orden[i].id];
-      printf("%d ",orden[i].id);
+      //printf("%d ",orden[i].id);
     }
   }
   printf("\nbeneficio total: %d\n",obj);
