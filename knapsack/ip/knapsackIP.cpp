@@ -1,4 +1,7 @@
 //para compilar en mac: clang++ -m64 -fPIC -fexceptions -DNDEBUG -stdlib=libc++ -I/Applications/CPLEX_Studio221/cplex/include -I/Applications/CPLEX_Studio221/concert/include  -L/Applications/CPLEX_Studio221/cplex/lib/x86-64_osx/static_pic -L/Applications/CPLEX_Studio221/concert/lib/x86-64_osx/static_pic  -o knapsackIP knapsackIP.cpp -lconcert -lilocplex -lcplex -m64 -lm -lpthread -framework CoreFoundation -framework IOKit -stdlib=libc++
+//para compilar en linux:
+//g++ -m64 -fPIC -fno-strict-aliasing -fexceptions -DNDEBUG -I/opt/ibm/ILOG/CPLEX_Studio221/cplex/include -I/opt/ibm/ILOG/CPLEX_Studio221/concert/include  -L/opt/ibm/ILOG/CPLEX_Studio221/cplex/lib/x86-64_linux/static_pic -L/opt/ibm/ILOG/CPLEX_Studio221/concert/lib/x86-64_linux/static_pic  knapsackIP.cpp -lconcert -lilocplex -lcplex -lm -lpthread -ldl
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
