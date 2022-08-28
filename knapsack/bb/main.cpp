@@ -52,8 +52,8 @@ int* bestSolucion;
 int bestObj;
 paraOrden* orden;
 
-int bound(instance* I,int item,int obj,int remaining) {
-  for(int i=item;i<I->n;i++) {
+int bound(instance* I,int position,int obj,int remaining) {
+  for(int i=position;i<I->n;i++) {
     if(I->weight[orden[i].id]<=remaining) {
       remaining -= I->weight[orden[i].id];
       obj += I->profit[orden[i].id];
@@ -65,32 +65,30 @@ int bound(instance* I,int item,int obj,int remaining) {
   return(obj);
 }
 
-void branch(instance* I,int item,int obj,int remaining) {
+void branch(instance* I,int position,int obj,int remaining) {
+  int item=orden[position].id;
   //veamos si mejora la mejor solución
   if(obj>bestObj) {
     bestObj=obj;
-    for(int i=0;i<item;i++) {
-      bestSolucion[i]=solucion[orden[i].id];
-    }
-    for(int i=item;i<I->n;i++) {
-      bestSolucion[orden[i].id]=0;
+    for(int i=0;i<I->n;i++) {
+      bestSolucion[i]=solucion[i];
     }
   }
   //no cabe nada más
   if(remaining==0) {
     return;
   }
-  if((item+1)==I->n) {
+  if((position+1)==I->n) {
     return;
   }
   //si no, hay que ramificar
-  if((remaining>=I->weight[orden[item].id])&&(bound(I,item,obj+I->profit[orden[item].id],remaining-I->weight[orden[item].id])>bestObj)) {
-    solucion[orden[item].id]=1;
-    branch(I,item+1,obj+I->profit[orden[item].id],remaining-I->weight[orden[item].id]);
+  if((remaining>=I->weight[item])&&(bound(I,position,obj+I->profit[item],remaining-I->weight[item])>bestObj)) {
+    solucion[item]=1;
+    branch(I,position+1,obj+I->profit[item],remaining-I->weight[item]);
   }
-  if(bound(I,item+1,obj,remaining)>bestObj) {
-    solucion[orden[item].id]=0;
-    branch(I,item+1,obj,remaining);
+  if(bound(I,position+1,obj,remaining)>bestObj) {
+    solucion[item]=0;
+    branch(I,position+1,obj,remaining);
   }
 }
 
@@ -99,6 +97,9 @@ void solveKnapsackBB(instance* I) {
   //hay que hacer reservar memoria para estructura de orden
 	orden=(paraOrden* )malloc(sizeof(paraOrden)*I->n);
   solucion=generateIntVector(I->n);
+  for(int i=0;i<I->n;i++) {
+    solucion[i]=0;
+  }
   bestSolucion=generateIntVector(I->n);
   for(int i=0;i<I->n;i++) {
     orden[i].id=i;
@@ -109,12 +110,17 @@ void solveKnapsackBB(instance* I) {
   bestObj=0;
   for(int i=0;i<I->n;i++) solucion[i]=0;
   //escoger el primer objeto
-  solucion[0]=1;
+  solucion[orden[0].id]=1;
   branch(I,1,I->profit[orden[0].id],I->c-I->weight[orden[0].id]);
 
   //no escoger el primer objeto
-  solucion[0]=0;
+  solucion[orden[0].id]=0;
   branch(I,1,0,I->c);
+  printf("mejor solucion con valor: %d\n",bestObj);
+  for(int i=0;i<I->n;i++) {
+    if(bestSolucion[i]==1) printf("%d ",i);
+  }
+  printf("\n");
 
 
 }
