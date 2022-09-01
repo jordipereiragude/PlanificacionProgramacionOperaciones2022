@@ -55,8 +55,8 @@ int solveKnapsackDp(instance* I) {
   int** d; //decision (si se usa o no)
   
   //reservar espacio de memoria (generateIntMatrix)
-  p=generateIntMatrix(I->n+1,I->c+1);
-  d=generateIntMatrix(I->n+1,I->c+1);
+  p=generateIntMatrix(I->n,I->c+1);
+  d=generateIntMatrix(I->n,I->c+1);
   //inicializar
   for(int i=0;i<I->n;i++)  {
     for(int j=0;j<=I->c;j++) {
@@ -77,7 +77,7 @@ int solveKnapsackDp(instance* I) {
       d[i][j]=0; //decisión es no seleccionar el objeto
     }
     //considerar el caso "no subir/subir" (aquellos estados con peso acumulado igual o superior al peso del objeto)
-    for(int j=I->weight[i];j<I->c;j++) {
+    for(int j=I->weight[i];j<=I->c;j++) {
       p[i][j]=p[i-1][j]; //por defecto voy a decir que escoge "no subir" --> no seleccionar el item
       d[i][j]=0; //no seleccionar item
       if((p[i-1][j-I->weight[i]]+I->profit[i])>p[i][j]) { //si ese valor (p[i][j] es más pequeño que "subir" (venir de un estado con carga menor + valor del objeto)
