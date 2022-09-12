@@ -1,4 +1,4 @@
-//para compilar en mac: clang++ -m64 -fPIC -fexceptions -DNDEBUG -stdlib=libc++ -I/Applications/CPLEX_Studio221/cplex/include -I/Applications/CPLEX_Studio221/concert/include  -L/Applications/CPLEX_Studio221/cplex/lib/x86-64_osx/static_pic -L/Applications/CPLEX_Studio221/concert/lib/x86-64_osx/static_pic  -o knapsackIP bppIP.cpp -lconcert -lilocplex -lcplex -m64 -lm -lpthread -framework CoreFoundation -framework IOKit -stdlib=libc++
+//para compilar en mac: clang++ -m64 -fPIC -fexceptions -DNDEBUG -stdlib=libc++ -I/Applications/CPLEX_Studio221/cplex/include -I/Applications/CPLEX_Studio221/concert/include  -L/Applications/CPLEX_Studio221/cplex/lib/x86-64_osx/static_pic -L/Applications/CPLEX_Studio221/concert/lib/x86-64_osx/static_pic  -o bppIP bppIP.cpp -lconcert -lilocplex -lcplex -m64 -lm -lpthread -framework CoreFoundation -framework IOKit -stdlib=libc++
 //para compilar en linux:
 //g++ -m64 -fPIC -fno-strict-aliasing -fexceptions -DNDEBUG -I/opt/ibm/ILOG/CPLEX_Studio221/cplex/include -I/opt/ibm/ILOG/CPLEX_Studio221/concert/include  -L/opt/ibm/ILOG/CPLEX_Studio221/cplex/lib/x86-64_linux/static_pic -L/opt/ibm/ILOG/CPLEX_Studio221/concert/lib/x86-64_linux/static_pic  bppIP.cpp -lconcert -lilocplex -lcplex -lm -lpthread -ldl
 
@@ -12,7 +12,6 @@ using namespace std;
 typedef struct instance{
   int n;
   int c;
-  int* profit;
   int* weight;
 } instance;
 
@@ -106,7 +105,7 @@ instance I;
   readFile(&I,argv[1]);
   solveBppIp(&I);
   //liberar memoria
-  free(I->w);
+  free(I.weight);
 
   return(0); //todo ha salido bien
 }
