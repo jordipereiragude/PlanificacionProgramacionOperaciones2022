@@ -21,8 +21,8 @@ orden=[]
 for i in range(len(profit)):
     orden.append(i)
     ratio.append(0.0-profit[i]/weight[i])  #orden al revés
-#orden=[x for _,x in sorted(zip(ratio,orden))]
-#"""
+orden=[x for _,x in sorted(zip(ratio,orden))]
+"""
 while True:
     cambio=False
     for i in range(len(orden)-1):
@@ -33,13 +33,13 @@ while True:
             cambio=True
     if cambio==False:
         break
-#"""
-
 """
+
+#"""
 print(orden)
 for i in range(len(orden)):
     print(orden[i],ratio[orden[i]])
-"""
+#"""
 libre=c
 obj=0
 print("usa:",end=" ")
