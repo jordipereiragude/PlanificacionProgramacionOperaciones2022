@@ -217,6 +217,6 @@ int main(int argc, char* argv[]) {
     crossover(&I,&G);
     mutacion(&I,&G);
     reemplazo(&I,&G);
-    stats(&G,i);
+    if(i%100==0) stats(&G,i);
   }
 }
