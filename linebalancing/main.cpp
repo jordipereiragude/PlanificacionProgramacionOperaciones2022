@@ -64,6 +64,39 @@ void calcularPrioridadDuracion(instance* I) {
   }
 }
 
+void calcularPrioridadHelgersonBirnie(instance* I) {
+  int pAbs[I->nt+1][I->nt+1];
+  for(int i=1;i<=I->nt;i++) {
+    for(int j=1;j<I->nt;j++) {
+      pAbs[i][j]=I->p[i][j];
+    }
+  }
+  int cambio;
+  do{
+    cambio=0;
+    for(int i=1;i<=I->nt;i++) {
+      for(int j=1;j<=I->nt;j++) {
+        if(pAbs[i][j]==1) {
+          for(int k=1;k<=I->nt;k++) {
+            if((pAbs[i][k]==0)&&(pAbs[j][k]==1)) {
+              pAbs[i][k]=1;
+              cambio=1;
+            }
+          }
+        }
+      }
+    }
+  }while(cambio==1);
+  for(int i=1;i<I->nt;i++) {
+    I->prioridad[i]=I->d[i];
+    for(int j=1;j<I->nt;j++) {
+      if(pAbs[i][j]==1) {
+        I->prioridad[i]=I->prioridad[i]+I->d[j];
+      }
+    }
+  }
+}
+
 int greedy(instance* I) {
 
   int pendientes[I->nt+1];
@@ -117,7 +150,8 @@ int main(int argc,char* argv[]) {
     return(0);
   }
   readFile(&I,argv[1],atoi(argv[2]));
-  calcularPrioridadDuracion(&I);
+  //calcularPrioridadDuracion(&I);
+  calcularPrioridadHelgersonBirnie(&I);
   greedy(&I);
   return(0);
 }
