@@ -107,19 +107,22 @@ void localSearch(instance* I,int* solucion) {
         }
       }
     }
-        
-    
     //swap
     for(int i=0;i<(I->n-1);i++) {
       for(int j=i+1;j<I->n;j++) {
-        //copiar
+        /*copiar solucion en solucionEvaluacion
         for(int k=0;k<i;k++) solucionEvaluacion[k]=solucion[k];
-        solucionEvaluacion[i]=solucion[j];
+        solucionEvaluacion[i]=solucion[j]; //cambiar el job de i
         for(int k=(i+1);k<j;k++) solucionEvaluacion[k]=solucion[k];
-        solucionEvaluacion[j]=solucion[i];
+        solucionEvaluacion[j]=solucion[i]; //cambiar el job de j
         for(int k=(j+1);k<I->n;k++) solucionEvaluacion[k]=solucion[k];
-        int objAlternativo=objective(I,&solucionEvaluacion[0]);
-        if(objAlternativo<objActual) {
+        */
+        //las tres siguientes líneas son una alternativa a las anteriores
+        for(int k=0;j<I->n;k++) solucionEvaluacion[k]=solucion[k];
+        solucionEvaluacion[i]=solucion[j]; //cambiar el job de i
+        solucionEvaluacion[j]=solucion[i]; //cambiar el job de j                                           
+        int objAlternativo=objective(I,&solucionEvaluacion[0]); //se evalúa
+        if(objAlternativo<objActual) { //si es mejor, me la quedo
           objActual=objAlternativo;
           cambio=1;
           for(int k=0;k<I->n;k++) solucion[k]=solucionEvaluacion[k];
