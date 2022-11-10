@@ -103,8 +103,8 @@ void neh(instance* I) {
   solucion[0]=orden[0].id;
   solucion[1]=orden[1].id;
   int o1=objective(I,solucion,2);
-  solucionTest[0]=orden[0].id;
-  solucionTest[1]=orden[1].id;
+  solucionTest[0]=orden[1].id;
+  solucionTest[1]=orden[0].id;
   int o2=objective(I,solucionTest,2);
   if(o2<o1) {
     solucion[0]=solucionTest[0];
