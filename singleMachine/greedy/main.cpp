@@ -85,5 +85,8 @@ instance I;
   //imprimimos el contenido por seguridad
   readFile(&I,argv[1]);
   greedy(&I);
+  free(I.p);
+  free(I.w);
+  free(I.d);
   return(0);
 }

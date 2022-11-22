@@ -150,5 +150,9 @@ int* solucion;
   solucion=generateIntVector(I.n);
   greedy(&I,solucion);
   localSearch(&I,solucion);
+  free(I.p);
+  free(I.d);
+  free(I.w);
+  free(solucion);
   return(0);
 }

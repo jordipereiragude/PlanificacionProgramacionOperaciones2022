@@ -94,6 +94,7 @@ instance I;
   readFile(&I,argv[1]);
   printf("n: %d c: %d\n",I.n,I.c);
   solveKnapsackIp(&I);
-
+  free(I.profit);
+  free(I.weight);
   return(0); //todo ha salido bien
 }

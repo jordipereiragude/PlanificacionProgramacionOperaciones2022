@@ -67,5 +67,6 @@ instance I;
   readFile(&I,argv[1]);
   printf("n: %d m: %d\n",I.n,I.m);
   greedy(&I);
+  free(I.w);
   return(0);
 }

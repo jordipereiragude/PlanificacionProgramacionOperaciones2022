@@ -143,6 +143,9 @@ solucion S;
   printf("n: %d m: %d\n",I.n,I.m);
   greedy(&I,&S);
   busquedalocal(&I,&S);
+  free(I.w);
+  free(S.carga);
+  free(S.x);
   return(0);
 }
 

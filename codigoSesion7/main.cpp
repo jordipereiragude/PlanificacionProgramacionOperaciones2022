@@ -79,5 +79,6 @@ instance I;
   printf("n: %d m: %d\n",I.n,I.m);
   //ejecuta el "greedy"
   greedy(&I);
+  free(I.w);
   return(0);
 }

@@ -120,5 +120,7 @@ int main(int argc, char* argv[]) { //entra en el programa y pásale los datos
   //la variable por referencia (la forma de hacerlo es usar la pareja & y *)
   readFile(&I,argv[1]);
   solveKnapsackIP(&I);
+  free(I.profit);
+  free(I.weight);
   return(0);
 }

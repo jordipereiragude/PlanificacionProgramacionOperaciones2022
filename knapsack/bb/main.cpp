@@ -137,6 +137,8 @@ instance I;
   readFile(&I,argv[1]);
   printf("n: %d c: %d\n",I.n,I.c);
   solveKnapsackBB(&I);
+  free(I.profit);
+  free(I.weight);
   return(0);
 }
 

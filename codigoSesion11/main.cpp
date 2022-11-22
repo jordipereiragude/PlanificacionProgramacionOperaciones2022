@@ -85,5 +85,8 @@ instance I;
   }
   readFile(&I,argv[1]);
   greedy(&I);
+  free(I.d);
+  free(I.w); 
+  free(I.p);
   return(0);
 }

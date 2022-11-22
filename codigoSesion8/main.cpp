@@ -146,6 +146,9 @@ solucion S;
   printf("n: %d m: %d\n",I.n,I.m);
   greedy(&I,&S); //hasta aquí sería una solución como las desarrolladas hasta la semana pasada
   busquedalocal(&I,&S); //parte nueva -- van a ser un montón de fors
+  free(I.w);
+  free(S.carga);
+  free(S.x);
   return(0);
 }
 

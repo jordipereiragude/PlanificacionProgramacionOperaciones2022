@@ -101,5 +101,6 @@ instance I;
   printf("n: %d c: %d\n",I.n,I.c);
   firstFit(&I);
   bestFit(&I);
+  free(I.w);
   return(0);
 }

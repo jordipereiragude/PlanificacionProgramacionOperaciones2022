@@ -153,5 +153,8 @@ int main(int argc,char* argv[]) {
   //calcularPrioridadDuracion(&I);
   calcularPrioridadHelgersonBirnie(&I);
   greedy(&I);
+  free(I.prioridad);
+  free(I.p);
+  free(I.d);
   return(0);
 }

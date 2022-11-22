@@ -219,4 +219,9 @@ int main(int argc, char* argv[]) {
     reemplazo(&I,&G);
     if(i%100==0) stats(&G,i);
   }
+  free(G.hijo);
+  free(G.fitnessIndividuos);
+  free(G.poblacion);
+  free(I.w);
+  return(0);
 }

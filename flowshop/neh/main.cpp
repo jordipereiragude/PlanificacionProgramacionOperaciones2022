@@ -139,5 +139,6 @@ instance I;
   //imprimimos el contenido por seguridad
   readFile(&I,argv[1]);
   neh(&I);
+  free(I.p);
   return(0);
 }

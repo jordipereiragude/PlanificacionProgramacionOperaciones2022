@@ -126,5 +126,7 @@ int main(int argc, char* argv[]) {
   readFile(&I,argv[1]);
   printf("nombre fichero %s\tnumero de items %d\n",argv[1],I.n);
   solveKnapsack(&I);
+  free(I.profit);
+  free(I.weight);
   return(0);
 }
