@@ -77,7 +77,7 @@ void busquedalocal(instance* I,solucion* S) {
         for(int j=0;j<I->m;j++) {
           if((S->carga[j]+I->w[i])<S->maxCarga) { //si mejora
             S->carga[S->x[i]] = S->carga[S->x[i]]-I->w[i];
-            S->carga[j] = S->carga[j]-I->w[i];
+            S->carga[j] = S->carga[j]+I->w[i];
             S->x[i]=j;
             cambio=1;
             //actualizar máquina más cargada
